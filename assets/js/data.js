@@ -27,6 +27,12 @@ window.GC = (function () {
     email: 'hello@graphcent.com',
     phone: '+234 812 202 2600',
     phoneHref: 'tel:+2348122022600',
+    whatsapp: '2348122022600',          // wa.me number: country code, no + or spaces
+    /* Google reviews (homepage). Fill all three to switch the section on:
+       placeId  from https://developers.google.com/maps/documentation/places/web-service/place-id
+       apiKey   a browser key restricted to graphcent.com/* and to "Places API (New)"
+       profile  the public Google Business Profile link */
+    reviews: { placeId: '', apiKey: '', profile: '' },
     location: 'Kano, Nigeria',
     hours: 'Monday to Saturday, 9:00 to 18:00 GMT+1',
     socials: [
