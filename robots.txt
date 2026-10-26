@@ -1,4 +1,6 @@
 User-agent: *
 Allow: /
+Disallow: /tools/
+Disallow: /partials/
 
 Sitemap: https://graphcent.com/sitemap.xml

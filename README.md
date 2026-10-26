@@ -23,6 +23,8 @@ GitHub Pages, from the `main` branch, root folder. The `CNAME` file holds the cu
 - Identity case studies: edit `tools/identity_projects.py`, then `python3 tools/build-identity.py .`
 - Articles: `python3 tools/build-article-*.py`, then `python3 tools/add-share.py .`
 - Shared footer and icons: `npm run build`
+- Search and social previews, last: `python3 tools/make-og.py .` (when images or titles change), then `python3 tools/seo.py .`
+  It sets titles, descriptions, Open Graph / X tags, 1200x630 JPG previews (`assets/og/`), icons, structured data and the sitemap.
 
 ## Guides and client work
 

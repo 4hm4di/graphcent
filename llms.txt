@@ -1,0 +1,34 @@
+# Graphcent
+
+> Graphcent is a creative and marketing studio in Kano, Nigeria, working across brand identity, UI/UX design, web design and development, creative direction, graphic and packaging design, printing and 3D signage, social media management and marketing.
+
+- Website: https://graphcent.com
+- Email: hello@graphcent.com
+- Phone: +234 812 202 2600
+- Location: Kano, Nigeria
+
+## Pages
+
+- [Work](https://graphcent.com/work/): case studies
+- [Studio](https://graphcent.com/studio/): the team and capabilities
+- [Insights](https://graphcent.com/insights/): articles
+- [Contact](https://graphcent.com/contact/)
+- [Send a brief](https://graphcent.com/brief/)
+
+## Case studies
+
+- [AMEA](https://graphcent.com/work/amea/): Website Design & Development. The old site was down. We rebuilt amea.ng end to end, from frontend development to the forms and email behind it.
+- [OneMajlis](https://graphcent.com/work/onemajlis/): UI/UX Design & Rebranding. A halal community platform, rebranded and designed end to end: a dome and three figures, and the product at onemajlis.com.
+- [Pegasus Interiors](https://graphcent.com/work/pegasus-interiors/): Brand Identity. They liked their logo but wanted something better. We built them a brand: a symbol that works at any size, an emblem, colour and stationery.
+- [ColorWaves](https://graphcent.com/work/colorwaves/): Naming & Brand Identity. A new paint, interiors and design company with no name. We named it, then built the identity from the name.
+- [Ajyad Investments](https://graphcent.com/work/ajyad/): Brand Identity. One drop, three colours: an identity for an investment company in oil and gas, real estate and agriculture.
+- [I-MAC Academy](https://graphcent.com/work/i-mac-academy/): Brand Identity. A media academy wordmark where the i is a microphone and the m is an open book.
+- [Onims Agro Solutions](https://graphcent.com/work/onims/): Rebranding. An agricultural rebrand built on one letter: a circular N with two leaves in its negative space.
+- [Reclaim & Renew](https://graphcent.com/work/reclaim-and-renew/): Brand Identity. Three Rs turned into a triangle of renewal, for a cleaning company and its Cleaner Streets campaign.
+- [Dreams Pharmacy](https://graphcent.com/work/dreams-pharmacy/): Rebranding. A pharmacy rebrand: a bold D with a capsule hidden in its negative space.
+- [Gurasar Banɗashe](https://graphcent.com/work/gurasar/): Packaging Design. A pizza box and takeaway bag in one bold red, with a hand-drawn food pattern and a round badge.
+
+## Articles
+
+- [What makes a website actually work for a business?](https://graphcent.com/insights/what-makes-a-website-work/)
+- [Why a logo is not a brand](https://graphcent.com/insights/why-a-logo-is-not-a-brand/)
