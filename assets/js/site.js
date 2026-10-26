@@ -402,10 +402,17 @@
     var page = (document.querySelector('h1') || {}).textContent || document.title;
     page = page.replace(/\s+/g, ' ').trim();
     a.href = waLink('Hello Graphcent, I found you on your website (' + page.slice(0, 60) + ') and would like to talk about a project.');
-    a.innerHTML = WA_ICON + '<span>Chat with us</span>';
+    a.innerHTML = WA_ICON + '<span class="wa-label">Chat with us</span>';
     var wrap = document.createElement('aside');
     wrap.className = 'wa-wrap'; wrap.setAttribute('aria-label', 'WhatsApp chat');
     wrap.appendChild(a); document.body.appendChild(wrap);
+    // full width = icon + label, so the clip and the slide land exactly
+    var fit = function () {
+      var lab = a.querySelector('.wa-label'); var sz = a.offsetHeight || 56;
+      a.style.setProperty('--w', Math.ceil(sz + lab.offsetWidth) + 'px');
+    };
+    fit();
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit);
 
     // the forms: a WhatsApp button beside the email one
     [['#enquiry', '#formnote', 'Project enquiry'], ['#brief', '#briefnote', 'Project brief']].forEach(function (f) {
@@ -447,13 +454,25 @@
   function reviews() {
     var box = $('[data-reviews]'); if (!box) return;
     var cfg = (window.GC && window.GC.BRAND.reviews) || {};
-    if (!cfg.placeId || !cfg.apiKey) return;
+    if (!cfg.apiKey || (!cfg.placeId && !cfg.query)) return;
     var esc = function (t) { var d = document.createElement('div'); d.textContent = t || ''; return d.innerHTML; };
     var stars = function (n) { var r = Math.round(n || 0), o = ''; for (var i = 1; i <= 5; i++) o += '<i class="' + (i <= r ? 'on' : '') + '"></i>'; return '<span class="rv-stars" role="img" aria-label="' + (n || 0) + ' out of 5 stars">' + o + '</span>'; };
+    function findId() {
+      if (cfg.placeId) return Promise.resolve(cfg.placeId);
+      return fetch('https://places.googleapis.com/v1/places:searchText', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-Goog-Api-Key': cfg.apiKey, 'X-Goog-FieldMask': 'places.id' },
+        body: JSON.stringify({ textQuery: cfg.query })
+      }).then(function (r) { return r.json(); }).then(function (d) {
+        var id = d.places && d.places[0] && d.places[0].id;
+        if (!id) throw new Error('place not found');
+        cfg.placeId = id; return id;
+      });
+    }
     function load() {
-      fetch('https://places.googleapis.com/v1/places/' + encodeURIComponent(cfg.placeId) + '?languageCode=en', {
+      findId().then(function () { return fetch('https://places.googleapis.com/v1/places/' + encodeURIComponent(cfg.placeId) + '?languageCode=en', {
         headers: { 'X-Goog-Api-Key': cfg.apiKey, 'X-Goog-FieldMask': 'rating,userRatingCount,reviews,googleMapsUri' }
-      }).then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); }).then(function (d) {
+      }); }).then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); }).then(function (d) {
         var list = (d.reviews || []).filter(function (x) { return x.text && x.text.text; });
         if (!list.length) return;
         var write = 'https://search.google.com/local/writereview?placeid=' + encodeURIComponent(cfg.placeId);

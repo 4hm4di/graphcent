@@ -1299,16 +1299,39 @@ body.menu{overflow:hidden}
 /* =========================================================================
    48. WhatsApp button and Google reviews
    ========================================================================= */
-.wa-fab{position:fixed;right:max(16px,env(safe-area-inset-right));bottom:max(16px,env(safe-area-inset-bottom));z-index:70;
-  display:inline-flex;align-items:center;gap:10px;height:52px;padding:0 18px 0 15px;background:#157F3B;color:#fff;
-  font-weight:600;font-size:.92rem;box-shadow:0 10px 28px rgba(10,11,53,.28);
-  transition:transform var(--t-press) var(--ease),background-color var(--t-fast) var(--ease),opacity .25s var(--ease)}
-.wa-fab svg{width:24px;height:24px;flex:none}
-.wa-fab:active{transform:scale(.95)}
-@media (hover:hover) and (pointer:fine){.wa-fab:hover{background:#0F6B31}}
-.wa-fab:focus-visible{outline:2px solid var(--volt);outline-offset:3px}
-@media (max-width:560px){.wa-fab{width:52px;padding:0;justify-content:center}.wa-fab span{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}}
-body.menu .wa-fab{opacity:0;pointer-events:none}
+/* WhatsApp: collapsed to the icon; on hover (desktop) the logo slides to the far side and
+   "Chat with us" comes out beside it. On touch screens the same move plays on a slow loop.
+   Only clip-path, transform and opacity animate. --w (full width) is measured in site.js. */
+.wa-wrap{position:fixed;right:max(16px,env(safe-area-inset-right));bottom:max(16px,env(safe-area-inset-bottom));z-index:70;
+  filter:drop-shadow(0 10px 22px rgba(10,11,53,.28));transition:opacity .25s var(--ease)}
+body.menu .wa-wrap{opacity:0;pointer-events:none}
+.wa-fab{--s:56px;--w:190px;--ease-wa:cubic-bezier(.22,1,.36,1);position:relative;display:block;width:var(--w);height:var(--s);
+  background:#157F3B;color:#fff;font-weight:600;font-size:.95rem;white-space:nowrap;
+  clip-path:inset(0 0 0 calc(var(--w) - var(--s)));
+  transition:clip-path .42s var(--ease-wa),background-color .2s ease}
+.wa-fab svg{position:absolute;left:calc((var(--s) - 26px) / 2);top:calc((var(--s) - 26px) / 2);width:26px;height:26px;
+  transform:translateX(calc(var(--w) - var(--s)));transition:transform .42s var(--ease-wa)}
+.wa-fab .wa-label{position:absolute;left:var(--s);top:0;height:var(--s);display:flex;align-items:center;padding-right:20px;
+  opacity:0;transform:translateX(14px);transition:opacity .2s ease,transform .3s var(--ease-wa)}
+@media (hover:hover) and (pointer:fine){
+  .wa-fab:hover,.wa-fab:focus-visible{clip-path:inset(0);background:#0F6B31}
+  .wa-fab:hover svg,.wa-fab:focus-visible svg{transform:translateX(0) rotate(-360deg)}
+  .wa-fab:hover .wa-label,.wa-fab:focus-visible .wa-label{opacity:1;transform:none;transition:opacity .25s ease .12s,transform .38s var(--ease-wa) .08s}
+  .wa-fab:active{transform:scale(.97)}
+}
+.wa-fab:focus-visible{outline:none}
+.wa-wrap:has(.wa-fab:focus-visible){outline:2px solid var(--volt);outline-offset:3px}
+@media (hover:none),(pointer:coarse){
+  .wa-fab{--s:54px;animation:wa-box 7s var(--ease-wa) 2s infinite}
+  .wa-fab svg{animation:wa-icon 7s var(--ease-wa) 2s infinite}
+  .wa-fab .wa-label{animation:wa-label 7s ease 2s infinite}
+}
+@keyframes wa-box{0%,52%{clip-path:inset(0 0 0 calc(var(--w) - var(--s)))}60%,84%{clip-path:inset(0)}92%,100%{clip-path:inset(0 0 0 calc(var(--w) - var(--s)))}}
+@keyframes wa-icon{0%,52%{transform:translateX(calc(var(--w) - var(--s)))}60%,84%{transform:translateX(0) rotate(-360deg)}92%,100%{transform:translateX(calc(var(--w) - var(--s))) rotate(-360deg)}}
+@keyframes wa-label{0%,55%{opacity:0;transform:translateX(14px)}63%,82%{opacity:1;transform:none}88%,100%{opacity:0;transform:translateX(14px)}}
+@media (prefers-reduced-motion:reduce){
+  .wa-fab,.wa-fab svg,.wa-fab .wa-label{animation:none!important;transition:none!important}
+}
 .wa-send svg{width:18px;height:18px;margin-right:8px;vertical-align:-3px}
 .reviews[hidden]{display:none}
 .rv-score{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;justify-self:end}
