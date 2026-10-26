@@ -1,0 +1,70 @@
+/* Graphcent: design tokens
+   Palette sampled directly from the Graphcent mark and letterhead. */
+
+:root{
+  /* colour */
+  --ink:#0A0B35;          /* wordmark navy: the studio's black */
+  --ink-2:#14153F;
+  --ink-3:#080932;
+  --paper:#F3F2EE;        /* warm off-white */
+  --bone:#E5E3DC;
+  --concrete:#D6D3CB;
+  --grey:#6B6B84;
+  --volt:#0047E2;         /* mark, deepest facet */
+  --sky:#00CCFF;          /* mark, lightest facet */
+
+  --line:rgba(10,11,53,.14);
+  --line-inv:rgba(243,242,238,.16);
+
+  /* ---- shared UI tokens: one source of truth for every component ----
+     Light context is the default. Every .dark section re-points the same
+     token names in refine.css, so no component ever hard-codes a colour. */
+  --txt:var(--ink);            /* primary text            */
+  --txt-2:var(--grey);         /* secondary text          */
+  --border:var(--line);        /* every border and rule   */
+  --accent:var(--volt);        /* single accent per theme */
+  --btn-bg:var(--ink);         /* filled button           */
+  --btn-fg:var(--paper);
+  --btn-bg-hover:var(--volt);
+  --btn-ghost-fg:var(--ink);
+  --icon:var(--volt);          /* icon default            */
+  --icon-hover:var(--ink);
+  --icon-muted:rgba(10,11,53,.62);
+  --t-fast:.2s;                /* one transition scale: UI  */
+  --t-base:.25s;               /* stays under 300ms         */
+  --t-press:.16s;              /* press feedback            */
+
+  --bg:var(--paper);
+  --fg:var(--ink);
+
+  /* type */
+  --font-display:"Archivo","Helvetica Neue",Helvetica,Arial,sans-serif;
+  --font-body:"Inter Tight",-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+
+  --d-xl:clamp(2.9rem,10.2vw,9rem);
+  --d-l:clamp(2.3rem,6.4vw,5.4rem);
+  --d-m:clamp(1.7rem,3.8vw,3.1rem);
+  --d-s:clamp(1.25rem,2vw,1.8rem);
+  --body:clamp(1rem,1.06vw,1.14rem);
+  --meta:clamp(.66rem,.74vw,.76rem);
+
+  /* layout */
+  --pad:clamp(20px,4.6vw,76px);
+  --gap:clamp(18px,2.4vw,34px);
+  --sect:clamp(72px,11vh,148px);
+  --maxw:1680px;
+
+  /* motion */
+  --ease:cubic-bezier(.22,.9,.28,1);        /* strong ease-out: UI + reveals */
+  --ease-drawer:cubic-bezier(.32,.72,0,1);   /* iOS-like sheet curve: menu    */
+  --slow:1.05s;
+
+  /* marquee speeds: one source of truth */
+  --speed-words:38s;
+  --speed-reel:64s;
+  --speed-clients-a:52s;
+  --speed-clients-b:38s;
+}
+
+:root:not([data-theme="light"]){color-scheme:light}
+:root[data-theme="dark"]{color-scheme:light}
