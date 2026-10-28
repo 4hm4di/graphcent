@@ -26,7 +26,7 @@ window.GC = (function () {
     founderLinkedin: 'https://www.linkedin.com/in/ahmard/',
     email: 'hello@graphcent.com',
     /* Google Apps Script web app (/exec URL) that receives the forms. Empty = mail-app fallback. */
-    formEndpoint: '',
+    formEndpoint: 'https://script.google.com/macros/s/AKfycbzEiDNPzvzbr8_ifr6dQoWND7H7EXXEL-yptC7r6caGpHOUIDBPLoowqd9HHY7ad9p8hg/exec',
     phone: '+234 812 202 2600',
     phoneHref: 'tel:+2348122022600',
     whatsapp: '2348122022600',          // wa.me number: country code, no + or spaces
