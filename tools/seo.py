@@ -45,6 +45,7 @@ DESCS = {
     'index.html': 'Graphcent is a creative and marketing studio in Kano, Nigeria: brand identity, UI/UX, web design and development, marketing, printing and 3D signage.',
     'work/i-mac-academy/index.html': 'Brand identity for I-MAC, a media academy: a wordmark where the i is a microphone and the m is an open book. By Graphcent, Kano.',
     'work/onims/index.html': 'Rebranding Onims Agro Solutions: a circular N with two leaves in its negative space, a green palette and a full brand system. By Graphcent.',
+    'work/aiff-26/index.html': 'Arewa Islamic Finance Forum 2026: creative direction, event branding and print consultation by Graphcent, from social campaign to stage and venue.',
     '404.html': 'This page could not be found. Head back to the Graphcent homepage or see our work.',
 }
 CRUMB = {'work': 'Work', 'studio': 'Studio', 'insights': 'Insights', 'contact': 'Contact', 'brief': 'Brief',

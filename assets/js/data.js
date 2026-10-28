@@ -48,6 +48,8 @@ window.GC = (function () {
      year / description present only where documented.      */
   /* Public projects, in display order (tools/site_projects.py). */
   const PROJECTS = [
+    { slug: 'aiff-26', name: 'AIFF ’26', category: 'Event Branding', filter: 'event-branding', year: '2026',
+      summary: 'Arewa Islamic Finance Forum 2026: the full visual presence of a five-day forum, from the social campaign to the stage, the venue and every printed piece.' },
     { slug: 'amea', name: 'AMEA', category: 'Website Design & Development', filter: 'web-design', year: '',
       summary: 'The old site was down. We rebuilt amea.ng end to end, from frontend development to the forms and email behind it.' },
     { slug: 'onemajlis', name: 'OneMajlis', category: 'UI/UX Design & Rebranding', filter: 'ui-ux', year: '2025',
@@ -91,13 +93,13 @@ window.GC = (function () {
       d: 'Mobile apps, web applications, dashboards, design systems and digital product experiences.' },
     { n: '03', t: 'Web Design & Development', icon: 'web-design-development', peek: 'amea/hero.webp',
       d: 'Websites, landing pages, WordPress websites, frontend development and digital experiences.' },
-    { n: '04', t: 'Creative Direction', icon: 'creative-direction', peek: 'colorwaves/world/billboard.webp',
+    { n: '04', t: 'Creative Direction', icon: 'creative-direction', peek: 'aiff-26/hero.webp',
       d: 'Visual direction across brands, campaigns, launches and digital experiences.' },
     { n: '05', t: 'Graphic Design', icon: 'graphic-design', peek: 'gurasar/world/pizza-boxes.webp',
       d: 'Campaigns, marketing materials, editorial design, social assets and visual communication.' },
     { n: '06', t: 'Printing & 3D Signage Fabrication', icon: 'printing-signage', peek: 'pegasus-interiors/mockups/signage.webp',
       d: 'Physical brand applications, signage, print production, large-format graphics and 3D fabricated brand installations.' },
-    { n: '07', t: 'Social Media Management', icon: 'social-media-management', peek: 'colorwaves/world/eid-poster.webp',
+    { n: '07', t: 'Social Media Management', icon: 'social-media-management', peek: 'aiff-26/social/05-tickets-open.webp',
       d: 'Content planning, creative production, platform management and brand consistency.' },
     { n: '08', t: 'Marketing', icon: 'marketing', peek: 'reclaim-and-renew/world/billboard.webp',
       d: 'Campaign development, digital marketing, promotional creative and strategic brand communication.' }

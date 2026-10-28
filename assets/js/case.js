@@ -384,7 +384,15 @@
     });
   }
 
-  function init() { sets(); rails(); viewers(); devices(); live(); flow(); compare(); logolab(); scale(); swatches(); paint(); typetest(); }
+  /* 13. Embedded posts  [data-embed]  hide the custom cursor while the pointer is over another site's frame */
+  function embeds() {
+    $$('iframe[data-embed]').forEach(function (f) {
+      f.addEventListener('mouseenter', function () { document.documentElement.classList.add('cursor-away'); });
+      f.addEventListener('mouseleave', function () { document.documentElement.classList.remove('cursor-away'); });
+    });
+  }
+
+  function init() { embeds(); sets(); rails(); viewers(); devices(); live(); flow(); compare(); logolab(); scale(); swatches(); paint(); typetest(); }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
   else init();
 })();

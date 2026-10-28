@@ -1354,3 +1354,37 @@ body.menu .wa-wrap{opacity:0;pointer-events:none}
 .rv-src{display:inline-flex;align-items:center;gap:8px;font-size:.9rem;color:var(--grey)}
 .rv-src svg{width:18px;height:18px}
 @media (max-width:760px){.rv-score{justify-self:start}.rv-score>span:last-child{text-align:left}}
+
+/* palette cards on phones: one aligned row per colour (chip | name + hex), no orphan tiles */
+@media (max-width:599px){
+  .pg-swatches,.cw-swatches,.pj-swatches{grid-template-columns:1fr!important;gap:8px}
+  .pg-swatch,.cw-swatch{grid-template-columns:64px minmax(0,1fr);grid-auto-rows:auto;column-gap:16px;row-gap:2px;
+    align-items:center;align-content:center;padding:0 52px 0 0;min-height:64px;text-align:left}
+  .pg-swatch .chip,.cw-swatch .chip{grid-column:1;grid-row:1 / span 3;width:64px;height:100%;min-height:64px;aspect-ratio:auto;
+    margin:0;border-bottom:0;border-right:1px solid var(--line)}
+  .pg-swatch b,.pg-swatch code,.pg-swatch .use{grid-column:2;padding:0}
+  .pg-swatch b{align-self:end;padding-top:12px}
+  .pg-swatch code{align-self:start}
+  .pg-swatch .use{padding-bottom:12px;font-size:.85rem}
+  .pg-swatch:not(:has(.use)) code{padding-bottom:12px}
+  .pg-swatch .cp{top:50%;right:10px;transform:translateY(-50%)}
+}
+
+/* =========================================================================
+   49. AIFF '26 event case study
+   ========================================================================= */
+.aiff-band{height:clamp(28px,3vw,44px);margin-top:10px;background:url(../projects/aiff-26/pattern.svg) left center/auto 100% repeat-x}
+.aiff-post{width:clamp(230px,24vw,320px)}
+.aiff-post .scr{aspect-ratio:900/1124;border-radius:0}
+.aiff-venue{display:grid;gap:clamp(18px,2.4vw,32px);margin-top:clamp(24px,3vw,40px)}
+.aiff-venue[hidden]{display:none}
+.aiff-venue figure{margin:0}
+.aiff-venue img{display:block;width:100%;height:auto;border:1px solid var(--line)}
+.aiff-venue figcaption{margin-top:10px;font-size:var(--meta);letter-spacing:.14em;text-transform:uppercase;color:var(--grey)}
+.aiff-report{display:grid;gap:clamp(32px,4vw,64px);align-items:start}
+@media (min-width:980px){.aiff-report{grid-template-columns:minmax(0,1fr) minmax(0,520px)}.aiff-report>.rv:first-child{position:sticky;top:calc(var(--navh,64px) + 32px)}}
+.aiff-report .pull{border-left-color:var(--sky)}
+.aiff-report .pull p{color:var(--paper)!important}
+.aiff-report .btn{margin-top:clamp(18px,2.4vw,28px)}
+.aiff-embed{background:#fff;border:1px solid var(--line);overflow:hidden}
+.aiff-embed iframe{display:block;width:100%;height:min(1180px,170vw);border:0}

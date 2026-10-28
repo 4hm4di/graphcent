@@ -3,10 +3,14 @@
 next-project chain. Unlaunched projects stay out of this list (and out of the repo).
 """
 
-ORDER = ['amea', 'onemajlis', 'pegasus-interiors', 'colorwaves', 'ajyad', 'i-mac-academy', 'onims',
+ORDER = ['aiff-26', 'amea', 'onemajlis', 'pegasus-interiors', 'colorwaves', 'ajyad', 'i-mac-academy', 'onims',
          'reclaim-and-renew', 'dreams-pharmacy', 'gurasar']
 
 CARDS = {
+    'aiff-26': dict(name='AIFF \u201926', rt='Event Branding', year='2026', filter='event-branding',
+                    chips=['Creative Direction', 'Event Branding', 'Print Consultation'],
+                    desc='Arewa Islamic Finance Forum 2026: the full visual presence of a five-day forum, from the social campaign to the stage, the venue and every printed piece.',
+                    alt='The AIFF \u201926 welcome banner: Arewa Islamic Finance Forum, From Awareness to Adoption and Advocacy'),
     'amea': dict(name='AMEA', rt='Website Design &amp; Development', year='', filter='web-design',
                  chips=['Web Design', 'Frontend Development', 'Forms &amp; Email'],
                  desc='The old site was down. We rebuilt amea.ng end to end, from frontend development to the forms and email behind it.',
@@ -54,3 +58,15 @@ def next_of(slug):
     i = ORDER.index(slug)
     n = ORDER[(i + 1) % len(ORDER)]
     return n, CARDS[n]['name']
+
+
+# The homepage "Featured case study" block
+FEATURE = dict(
+    slug='aiff-26', title='AIFF \u201926', img='hero.webp', w=2400, h=1280,
+    alt='The AIFF \u201926 welcome banner at the venue entrance: Arewa Islamic Finance Forum',
+    lede='Arewa Islamic Finance Forum 2026, convened by IFING Media. We took the event to full visibility: '
+         'creative direction, design execution and print consultation for five days in Kano.',
+    cols=[('Discipline', 'Creative direction and event branding, from the first countdown post to the last certificate.'),
+          ('Approach', 'One pattern and palette carried through every touchpoint: social, stage, venue, wayfinding and print.'),
+          ('Delivered', '18 to 22 July 2026 at Amani Event Center, Kano: campaign, stage, nine venue banners and the print kit.')],
+)

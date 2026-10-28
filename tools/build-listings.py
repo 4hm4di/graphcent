@@ -6,30 +6,30 @@ service hover previews, data.js PROJECTS / SERVICES peeks, sitemap.
 """
 import sys, os, re, html
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from site_projects import ORDER, CARDS
+from site_projects import ORDER, CARDS, FEATURE
 
 ROOT = sys.argv[1] if len(sys.argv) > 1 else '.'
 N = len(ORDER)
 WORDS = {8: 'Eight', 9: 'Nine', 10: 'Ten', 11: 'Eleven', 12: 'Twelve', 13: 'Thirteen', 14: 'Fourteen'}
-FEATURED = 'amea'
+FEATURED = FEATURE['slug']
 SERVICE_PEEK = {  # service title -> image path (from assets/projects)
     'Brand Identity': 'onims/world/branding.webp',
     'UI/UX Design': 'onemajlis/product/site-hero.webp',
     'Web Design &amp; Development': 'amea/hero.webp',
-    'Creative Direction': 'colorwaves/world/billboard.webp',
+    'Creative Direction': 'aiff-26/hero.webp',
     'Graphic Design': 'gurasar/world/pizza-boxes.webp',
     'Printing &amp; 3D Signage Fabrication': 'pegasus-interiors/mockups/signage.webp',
-    'Social Media Management': 'colorwaves/world/eid-poster.webp',
+    'Social Media Management': 'aiff-26/social/05-tickets-open.webp',
     'Marketing': 'reclaim-and-renew/world/billboard.webp',
 }
 PEEK_ALT = {
     'Brand Identity': 'Onims stationery set, brand identity by Graphcent',
     'UI/UX Design': 'The onemajlis.com homepage, UI/UX design by Graphcent',
     'Web Design &amp; Development': 'The amea.ng homepage, designed and built by Graphcent',
-    'Creative Direction': 'A ColorWaves billboard, creative direction by Graphcent',
+    'Creative Direction': 'The AIFF \u201926 welcome banner, creative direction by Graphcent',
     'Graphic Design': 'Gurasar pizza boxes, packaging design by Graphcent',
     'Printing &amp; 3D Signage Fabrication': 'Pegasus Interiors 3D steel shopfront letters',
-    'Social Media Management': 'A ColorWaves Eid al-Adha social post',
+    'Social Media Management': 'An AIFF \u201926 tickets announcement post',
     'Marketing': 'A Reclaim and Renew campaign billboard: Cleaner Streets, Brighter Future',
 }
 
@@ -73,7 +73,7 @@ cards = ''.join(f'<a class="proj pinrow {WK[i % len(WK)]} rv" data-cat="{CARDS[s
                 f'<div class="pinfo"><span class="ptrack" aria-hidden="true"><i></i></span>{meta(s, i + 1, "../")}</div></a>'
                 for i, s in enumerate(ORDER))
 w = w[:a] + '<div class="works stack" id="workgrid"><h2 class="vh">All projects</h2>' + cards + '</div>' + w[b:]
-LABELS = {'brand-identity': 'Brand Identity', 'ui-ux': 'UI/UX', 'web-design': 'Web Design', 'graphic-design': 'Packaging &amp; Graphic Design'}
+LABELS = {'event-branding': 'Event Branding', 'brand-identity': 'Brand Identity', 'ui-ux': 'UI/UX', 'web-design': 'Web Design', 'graphic-design': 'Packaging &amp; Graphic Design'}
 used = [k for k in LABELS if any(CARDS[x]['filter'] == k for x in ORDER)]
 fb = '<button data-filter="all" aria-pressed="true">All</button>' + ''.join(f'<button data-filter="{k}" aria-pressed="false">{LABELS[k]}</button>' for k in used)
 w = re.sub(r'(<div class="filters" data-filters[^>]*>).*?(</div>)', lambda m: m.group(1) + fb + m.group(2), w, count=1, flags=re.S)
@@ -103,15 +103,14 @@ s = s[:a] + '<div class="track">' + reel + '</div>' + s[b:]
 i = s.index('<p class="eyebrow">Featured case study</p>')
 sa = s.rindex('<section', 0, i); sb = s.index('</section>', i) + len('</section>')
 c = CARDS[FEATURED]
+F = FEATURE
 feat = ('<section class="sect dark"><div class="wrap">\n<p class="eyebrow">Featured case study</p>\n'
         f'<a class="proj rv" href="work/{FEATURED}/index.html" style="display:block;margin-top:clamp(22px,3vw,40px)"><div class="frame">'
-        f'<img src="assets/projects/{FEATURED}/hero.webp" alt="The new amea.ng homepage: From Nigerian ground to global markets" loading="lazy" decoding="async" width="2160" height="1350"></div>'
+        f'<img src="assets/projects/{FEATURED}/{F["img"]}" alt="{html.escape(F["alt"])}" loading="lazy" decoding="async" width="{F["w"]}" height="{F["h"]}"></div>'
         '<div class="chips">' + ''.join(f'<span class="schip">{x}</span>' for x in c['chips']) + '</div></a>\n'
-        '<div class="split" style="margin-top:clamp(30px,4vw,54px);align-items:end"><h2 class="dl rv">AMEA</h2>'
-        '<p class="lede rv">The old website was down and needed a revamp. We rebuilt amea.ng end to end: design, frontend development, and the forms and email behind it.</p></div>\n'
-        '<div class="cols3 rv" style="margin-top:clamp(36px,5vw,72px)"><div><h2>Discipline</h2><p class="lede sm">Website design and development, with the enquiry backend, email, search and launch.</p></div>'
-        '<div><h2>Approach</h2><p class="lede sm">Straight to code with real content, then forms that always arrive, search built in, and every login handed over.</p></div>'
-        '<div><h2>Delivered</h2><p class="lede sm">Live at amea.ng: 21 pages, five enquiry forms and an interactive licence map.</p></div></div>\n'
+        f'<div class="split" style="margin-top:clamp(30px,4vw,54px);align-items:end"><h2 class="dl rv">{F["title"]}</h2>'
+        f'<p class="lede rv">{F["lede"]}</p></div>\n'
+        '<div class="cols3 rv" style="margin-top:clamp(36px,5vw,72px)">' + ''.join(f'<div><h2>{k}</h2><p class="lede sm">{v}</p></div>' for k, v in F['cols']) + '</div>\n'
         f'<div style="margin-top:clamp(32px,4vw,58px)"><a class="tlink" href="work/{FEATURED}/index.html">VIEW CASE STUDY <span class="ar" aria-hidden="true">&rarr;</span></a></div>\n</div></section>')
 s = s[:sa] + feat + s[sb:]
 # service previews
@@ -141,9 +140,9 @@ for x in ORDER:
         x, html.unescape(c['name']), html.unescape(c['rt']), c['filter'], c['year'], html.unescape(c['desc'])))
 d = d[:a] + '  /* Public projects, in display order (tools/site_projects.py). */\n  const PROJECTS = [\n' + ',\n'.join(entries) + '\n  ];' + d[b:]
 peeks = {'Brand Identity': 'onims/world/branding.webp', 'UI/UX Design': 'onemajlis/product/site-hero.webp',
-         'Web Design & Development': 'amea/hero.webp', 'Creative Direction': 'colorwaves/world/billboard.webp',
+         'Web Design & Development': 'amea/hero.webp', 'Creative Direction': 'aiff-26/hero.webp',
          'Graphic Design': 'gurasar/world/pizza-boxes.webp', 'Printing & 3D Signage Fabrication': 'pegasus-interiors/mockups/signage.webp',
-         'Social Media Management': 'colorwaves/world/eid-poster.webp', 'Marketing': 'reclaim-and-renew/world/billboard.webp'}
+         'Social Media Management': 'aiff-26/social/05-tickets-open.webp', 'Marketing': 'reclaim-and-renew/world/billboard.webp'}
 for t, pth in peeks.items():
     d = re.sub(r"(t: '" + re.escape(t) + r"',[^\n]*?peek: ')[^']*'", lambda m: m.group(1) + pth + "'", d)
 write('assets/js/data.js', d)
