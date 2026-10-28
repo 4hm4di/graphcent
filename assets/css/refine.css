@@ -1373,7 +1373,23 @@ body.menu .wa-wrap{opacity:0;pointer-events:none}
 /* =========================================================================
    49. AIFF '26 event case study
    ========================================================================= */
-.aiff-band{height:clamp(28px,3vw,44px);margin-top:10px;background:url(../projects/aiff-26/pattern.svg) left center/auto 100% repeat-x}
+/* pattern ticker: the tile is 8:1, so sliding by one tile width (8 x height) loops seamlessly */
+.aiff-band{--bh:clamp(28px,3vw,44px);height:var(--bh);margin-top:10px;overflow:hidden;position:relative}
+.aiff-band::before{content:"";position:absolute;inset:0 auto 0 0;width:calc(100% + var(--bh) * 7.994);
+  background:url(../projects/aiff-26/pattern.svg) left center/calc(var(--bh) * 7.994) 100% repeat-x;
+  animation:aiff-tick 14s linear infinite;will-change:transform}
+@keyframes aiff-tick{to{transform:translate3d(calc(var(--bh) * -7.994),0,0)}}
+@media (prefers-reduced-motion:reduce){.aiff-band::before{animation:none}}
+.aiff-then{margin-top:clamp(64px,9vw,140px);padding-top:clamp(40px,5vw,72px);border-top:1px solid var(--line)}
+.aiff-reels{display:grid;gap:clamp(36px,4vw,64px);margin-top:clamp(28px,3.6vw,52px);justify-content:center}
+@media (min-width:760px){.aiff-reels{grid-template-columns:repeat(2,minmax(0,400px))}}
+.aiff-reel{margin:0;width:min(100%,400px);justify-self:center;display:flex;flex-direction:column;gap:16px}
+.aiff-reel figcaption{display:grid;gap:4px}
+.aiff-reel figcaption b{font-family:var(--font-display);font-weight:800;font-size:clamp(40px,5vw,72px);line-height:.9;letter-spacing:-.045em}
+.aiff-reel figcaption span{font-size:var(--meta);letter-spacing:.14em;text-transform:uppercase}
+.aiff-reel figcaption small{color:var(--grey);font-size:15px;line-height:1.5}
+.aiff-ig{background:#fff;border:1px solid var(--line);overflow:hidden}
+.aiff-ig iframe{display:block;width:100%;height:640px;border:0}
 .aiff-post{width:clamp(230px,24vw,320px)}
 .aiff-post .scr{aspect-ratio:900/1124;border-radius:0}
 .aiff-venue{display:grid;gap:clamp(18px,2.4vw,32px);margin-top:clamp(24px,3vw,40px)}

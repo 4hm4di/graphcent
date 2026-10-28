@@ -390,6 +390,15 @@
       f.addEventListener('mouseenter', function () { document.documentElement.classList.add('cursor-away'); });
       f.addEventListener('mouseleave', function () { document.documentElement.classList.remove('cursor-away'); });
     });
+    // Instagram's player reports its own height; size each reel to fit so nothing is cropped
+    var ig = $$('iframe[data-ig]');
+    if (!ig.length) return;
+    window.addEventListener('message', function (e) {
+      if (e.origin !== 'https://www.instagram.com') return;
+      var d; try { d = typeof e.data === 'string' ? JSON.parse(e.data) : e.data; } catch (_) { return; }
+      if (!d || d.type !== 'MEASURE' || !d.details || !(d.details.height > 0)) return;
+      ig.forEach(function (f) { if (f.contentWindow === e.source) f.style.height = Math.ceil(d.details.height) + 'px'; });
+    });
   }
 
   function init() { embeds(); sets(); rails(); viewers(); devices(); live(); flow(); compare(); logolab(); scale(); swatches(); paint(); typetest(); }

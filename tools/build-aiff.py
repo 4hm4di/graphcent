@@ -62,6 +62,15 @@ DELIVERED = [('Campaign', ['Countdown posts', 'Speaker announcements', 'Ticket l
              ('Venue', ['Stage design', 'Marquee hall banners', 'Outdoor wayfinding banners', 'Registration point', 'Partners wall']),
              ('Print', ['Badges and lanyards', 'Agenda and programme booklets', 'Certificates', 'Notebooks', 'Gift bags', 'Print consultation'])]
 groups = ''.join(f'<div class="pg-group"><h3>{g}</h3><ul>' + ''.join(f'<li class="done">{esc(i)}</li>' for i in items) + '</ul></div>' for g, items in DELIVERED)
+REELS = [('DC7qg5BoCPp', '2024', 'Arewa Islamic Finance Summit (AIFs)',
+          'Event branding designed by Ahmad, printed by FB Print. Posted 28 November 2024.'),
+         ('Da_mQVuozmN', '2026', 'Arewa Islamic Finance Forum (AIFF &rsquo;26)',
+          'Creative direction, design execution and print consultation by Graphcent. Posted 20 July 2026.')]
+reels = ''.join(f'<figure class="aiff-reel rv"><figcaption><b>{y}</b><span>{n}</span><small>{c}</small></figcaption>'
+                f'<div class="aiff-ig"><iframe src="https://www.instagram.com/reel/{code}/embed/" title="{esc(html.unescape(n))} on Instagram, {y}" '
+                f'loading="lazy" scrolling="no" allowfullscreen data-embed data-ig></iframe></div>'
+                f'<a class="tlink" href="https://www.instagram.com/reel/{code}/" target="_blank" rel="noopener">Watch on Instagram <span class="ar" aria-hidden="true">&#8599;</span></a></figure>'
+                for code, y, n, c in REELS)
 nxt, nxt_name = next_of(SLUG)
 
 MAIN = f'''<main id="main"><section class="sect dark phero"><div class="wrap"><a class="small" href="../../work/index.html" style="display:inline-block;margin-bottom:clamp(24px,3vw,42px)">&larr; &nbsp;All work</a><div class="split" style="align-items:end"><h1 class="dl rv">AIFF &rsquo;26</h1><p class="lede rv">The Arewa Islamic Finance Forum 2026, convened by IFING Media, brought bankers, regulators, scholars and entrepreneurs together in Kano for five days. Graphcent gave the forum its full visual presence: creative direction, design execution and print consultation, from the first countdown post to the last certificate.</p></div><div class="facts phero-facts rv" data-n="4"><div class="fact"><div class="k">Client</div><div class="v">IFING Media Ltd (convener)</div></div><div class="fact"><div class="k">Event</div><div class="v">18&ndash;22 July 2026, Amani Event Center, Kano</div></div><div class="fact"><div class="k">Category</div><div class="v">Event branding &middot; 2026</div></div><div class="fact"><div class="k">Services</div><div class="v">Creative Direction, Event Branding, Design Execution, Print Consultation</div></div></div><div class="pj-links"><a class="tlink rv" href="#report">The creative director&rsquo;s report <span class="ar" aria-hidden="true">&darr;</span></a><a class="tlink rv" href="{EVENT}" target="_blank" rel="noopener">Event page <span class="ar" aria-hidden="true">&#8599;</span></a></div></div></section>
@@ -121,6 +130,11 @@ MAIN = f'''<main id="main"><section class="sect dark phero"><div class="wrap"><a
 <blockquote class="pull"><p>Good design isn&rsquo;t just about making things look beautiful. It&rsquo;s about creating experiences.</p></blockquote>
 <a class="btn btn-ghost" href="{POST}" target="_blank" rel="noopener">READ IT ON LINKEDIN <span class="ar" aria-hidden="true">&#8599;</span></a></div>
 <div class="aiff-embed rv"><iframe src="{EMBED}" title="Ahmad Abdallah on LinkedIn: the AIFF 2026 creative direction report" loading="lazy" allowfullscreen data-embed></iframe></div>
+</div>
+<div class="wrap aiff-then" id="reels">
+<div class="cs-head"><div><p class="eyebrow">Then &amp; now</p><h2 class="dm rv">TWO YEARS,<br>ONE FORUM.</h2></div>
+<p class="lede rv">In November 2024 the event was the Arewa Islamic Finance Summit (AIFs), and Ahmad designed its branding. In 2026 it came back as a forum, and Graphcent delivered its whole visual presence. The two reels, side by side.</p></div>
+<div class="aiff-reels">{reels}</div>
 </div></section>
 
 <section class="sect"><div class="wrap">

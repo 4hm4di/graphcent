@@ -10,7 +10,7 @@ CARDS = {
     'aiff-26': dict(name='AIFF \u201926', rt='Event Branding', year='2026', filter='event-branding',
                     chips=['Creative Direction', 'Event Branding', 'Print Consultation'],
                     desc='Arewa Islamic Finance Forum 2026: the full visual presence of a five-day forum, from the social campaign to the stage, the venue and every printed piece.',
-                    alt='The AIFF \u201926 welcome banner: Arewa Islamic Finance Forum, From Awareness to Adoption and Advocacy'),
+                    alt='The AIFF \u201926 agenda booklet on green: the Agenda cover and the thank-you back page'),
     'amea': dict(name='AMEA', rt='Website Design &amp; Development', year='', filter='web-design',
                  chips=['Web Design', 'Frontend Development', 'Forms &amp; Email'],
                  desc='The old site was down. We rebuilt amea.ng end to end, from frontend development to the forms and email behind it.',
