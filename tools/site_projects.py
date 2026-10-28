@@ -62,8 +62,8 @@ def next_of(slug):
 
 # The homepage "Featured case study" block
 FEATURE = dict(
-    slug='aiff-26', title='AIFF \u201926', img='hero.webp', w=2400, h=1280,
-    alt='The AIFF \u201926 welcome banner at the venue entrance: Arewa Islamic Finance Forum',
+    slug='aiff-26', title='AIFF \u201926', img='featured.webp', w=2400, h=1800,
+    alt='The AIFF \u201926 agenda booklet: the Agenda cover in forest green with the forum pattern, and the thank-you back page',
     lede='Arewa Islamic Finance Forum 2026, convened by IFING Media. We took the event to full visibility: '
          'creative direction, design execution and print consultation for five days in Kano.',
     cols=[('Discipline', 'Creative direction and event branding, from the first countdown post to the last certificate.'),

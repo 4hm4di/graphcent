@@ -31,7 +31,7 @@ def img(src, alt, cls='', eager=False, extra=''):
 
 
 SOCIAL = [('01-countdown-2', 'Countdown: 2 days to go'), ('02-countdown-1', 'Countdown: 1 day to go'),
-          ('03-speaker-farrukh', 'Speaker: Dr Farrukh Habib'), ('04-speaker-oseni', 'Speaker: Dr Umar Oseni'),
+          ('03-speaker-farrukh', 'Speaker: Dr Farrukh Habib'),
           ('05-tickets-open', 'Tickets now open'), ('06-tickets-live', 'Tickets are live'),
           ('07-venue', 'Venue reveal'), ('08-exhibitors', 'Call for exhibitors'), ('09-sponsor', 'Sponsor announcement')]
 VENUE = {
@@ -62,15 +62,15 @@ DELIVERED = [('Campaign', ['Countdown posts', 'Speaker announcements', 'Ticket l
              ('Venue', ['Stage design', 'Marquee hall banners', 'Outdoor wayfinding banners', 'Registration point', 'Partners wall']),
              ('Print', ['Badges and lanyards', 'Agenda and programme booklets', 'Certificates', 'Notebooks', 'Gift bags', 'Print consultation'])]
 groups = ''.join(f'<div class="pg-group"><h3>{g}</h3><ul>' + ''.join(f'<li class="done">{esc(i)}</li>' for i in items) + '</ul></div>' for g, items in DELIVERED)
-REELS = [('DC7qg5BoCPp', '2024', 'Arewa Islamic Finance Summit (AIFs)',
+REELS = [('DC7qg5BoCPp', 'https://www.instagram.com/reel/DC7qg5BoCPp/?vrfl=MXZtajJ2ZTV3ZW5ncA==', '2024', 'Arewa Islamic Finance Summit (AIFs)',
           'Event branding designed by Ahmad, printed by FB Print. Posted 28 November 2024.'),
-         ('Da_mQVuozmN', '2026', 'Arewa Islamic Finance Forum (AIFF &rsquo;26)',
+         ('Da_mQVuozmN', 'https://www.instagram.com/reel/Da_mQVuozmN/', '2026', 'Arewa Islamic Finance Forum (AIFF &rsquo;26)',
           'Creative direction, design execution and print consultation by Graphcent. Posted 20 July 2026.')]
 reels = ''.join(f'<figure class="aiff-reel rv"><figcaption><b>{y}</b><span>{n}</span><small>{c}</small></figcaption>'
                 f'<div class="aiff-ig"><iframe src="https://www.instagram.com/reel/{code}/embed/" title="{esc(html.unescape(n))} on Instagram, {y}" '
                 f'loading="lazy" scrolling="no" allowfullscreen data-embed data-ig></iframe></div>'
-                f'<a class="tlink" href="https://www.instagram.com/reel/{code}/" target="_blank" rel="noopener">Watch on Instagram <span class="ar" aria-hidden="true">&#8599;</span></a></figure>'
-                for code, y, n, c in REELS)
+                f'<a class="tlink" href="{esc(link)}" target="_blank" rel="noopener">Watch on Instagram <span class="ar" aria-hidden="true">&#8599;</span></a></figure>'
+                for code, link, y, n, c in REELS)
 nxt, nxt_name = next_of(SLUG)
 
 MAIN = f'''<main id="main"><section class="sect dark phero"><div class="wrap"><a class="small" href="../../work/index.html" style="display:inline-block;margin-bottom:clamp(24px,3vw,42px)">&larr; &nbsp;All work</a><div class="split" style="align-items:end"><h1 class="dl rv">AIFF &rsquo;26</h1><p class="lede rv">The Arewa Islamic Finance Forum 2026, convened by IFING Media, brought bankers, regulators, scholars and entrepreneurs together in Kano for five days. Graphcent gave the forum its full visual presence: creative direction, design execution and print consultation, from the first countdown post to the last certificate.</p></div><div class="facts phero-facts rv" data-n="4"><div class="fact"><div class="k">Client</div><div class="v">IFING Media Ltd (convener)</div></div><div class="fact"><div class="k">Event</div><div class="v">18&ndash;22 July 2026, Amani Event Center, Kano</div></div><div class="fact"><div class="k">Category</div><div class="v">Event branding &middot; 2026</div></div><div class="fact"><div class="k">Services</div><div class="v">Creative Direction, Event Branding, Design Execution, Print Consultation</div></div></div><div class="pj-links"><a class="tlink rv" href="#report">The creative director&rsquo;s report <span class="ar" aria-hidden="true">&darr;</span></a><a class="tlink rv" href="{EVENT}" target="_blank" rel="noopener">Event page <span class="ar" aria-hidden="true">&#8599;</span></a></div></div></section>
@@ -92,7 +92,7 @@ MAIN = f'''<main id="main"><section class="sect dark phero"><div class="wrap"><a
 </div>
 <div class="cs-nums rv" style="margin-top:clamp(40px,6vw,88px)">
 <div><div class="n"><span data-count="5" data-suffix="" data-plain="false">5</span></div><div class="k">Event days</div></div>
-<div><div class="n"><span data-count="9" data-suffix="" data-plain="false">9</span></div><div class="k">Campaign posts</div></div>
+<div><div class="n"><span data-count="8" data-suffix="" data-plain="false">8</span></div><div class="k">Campaign posts</div></div>
 <div><div class="n"><span data-count="9" data-suffix="" data-plain="false">9</span></div><div class="k">Venue banners</div></div>
 <div><div class="n"><span data-count="9" data-suffix="" data-plain="false">9</span></div><div class="k">Print pieces</div></div>
 </div>

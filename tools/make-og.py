@@ -16,7 +16,7 @@ CARDS_OG = []   # (name, label, title, image path(s) relative to ROOT)
 for s in ORDER:
     c = CARDS[s]
     img = {'colorwaves': 'assets/projects/colorwaves/world/billboard.webp', 'pegasus-interiors': 'assets/projects/pegasus-interiors/mockups/signage.webp',
-           'amea': 'assets/projects/amea/thumbnail.webp'}.get(s, f'assets/projects/{s}/hero.webp')
+           'amea': 'assets/projects/amea/thumbnail.webp', 'aiff-26': 'assets/projects/aiff-26/featured.webp'}.get(s, f'assets/projects/{s}/hero.webp')
     CARDS_OG.append((f'work-{s}', html.unescape(c['rt']), html.unescape(c['name']), [img]))
 CARDS_OG += [
     ('work', 'Selected work', 'Identities, digital products and packaging.', [f'assets/projects/{s}/thumbnail.webp' for s in ORDER[:4]]),

@@ -7,7 +7,7 @@ Per page: title, description (<=160), canonical, Open Graph and X/Twitter tags k
 title/description, a 1200x630 JPG preview (assets/og/), icon links + web manifest, structured data
 (page type + breadcrumbs), and the sitemap with lastmod dates. Idempotent.
 """
-import sys, os, re, json, html, datetime
+import sys, os, re, json, html, datetime, hashlib, hashlib
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from site_projects import ORDER, CARDS
 
@@ -99,11 +99,14 @@ for p in pages:
         canon = canon or BASE + '/404.html'
     # social: identical to title/description
     img, alt = OG.get(p, ('images/og-graphcent.png', 'Graphcent: creative and marketing studio, Kano, Nigeria'))
-    url = f'{BASE}/assets/{img}'
+    # versioned by content, so WhatsApp, LinkedIn, X and Facebook fetch a new preview whenever the image changes
+    with open(os.path.join(ROOT, 'assets', img), 'rb') as fh:
+        ver = hashlib.sha1(fh.read()).hexdigest()[:8]
+    url = f'{BASE}/assets/{img}?v={ver}'
     a = '<link rel="canonical" href="' + get(s, r'<link rel="canonical" href="([^"]*)"') + '">' if '<link rel="canonical"' in s else '<meta name="description"'
     anchor = re.search(r'<meta name="description" content="[^"]*">', s).group(0)
     for key, val in (('og:title', title), ('og:description', desc), ('og:url', canon), ('og:image', url),
-                     ('og:image:secure_url', url), ('og:image:type', 'image/png' if url.endswith('.png') else 'image/jpeg'),
+                     ('og:image:secure_url', url), ('og:image:type', 'image/png' if img.endswith('.png') else 'image/jpeg'),
                      ('og:image:width', '1200'), ('og:image:height', '630'), ('og:image:alt', alt),
                      ('og:locale', 'en_NG'), ('og:site_name', 'Graphcent')):
         s = set_meta(s, 'property', key, val, anchor)
