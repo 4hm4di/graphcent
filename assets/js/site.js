@@ -278,11 +278,76 @@
   }
 
   /* ------------------------------------------------------
-     9. Enquiry form
-     Static site: validates, then hands a prefilled draft to
-     the visitor's mail client. Swap the handler for an
-     endpoint when a backend exists (see README).
+     9. Forms
+     With GC.BRAND.formEndpoint set (the Google Apps Script web app),
+     the enquiry, brief and newsletter forms post straight to it: each
+     one lands in the Graphcent forms sheet and arrives by email.
+     Without it, the enquiry and brief fall back to a prefilled draft
+     in the visitor's mail app.
      ------------------------------------------------------ */
+  var FORM_T0 = Date.now();
+  function endpoint() { return (window.GC && window.GC.BRAND.formEndpoint) || ''; }
+  function mailTo() { return (window.GC && window.GC.BRAND.email) || 'hello@graphcent.com'; }
+  function honeypot(form) {
+    if (form.querySelector('input[name="website"]')) return;
+    var h = document.createElement('div');
+    h.setAttribute('aria-hidden', 'true');
+    h.style.cssText = 'position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden';
+    h.innerHTML = '<label>Leave this empty<input type="text" name="website" tabindex="-1" autocomplete="off"></label>';
+    form.appendChild(h);
+  }
+  var FILE_TYPES = { pdf: 'application/pdf', doc: 'application/msword',
+    docx: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' };
+  function readFile(file) {
+    return new Promise(function (ok, no) {
+      var r = new FileReader();
+      r.onload = function () { ok(String(r.result).split(',')[1] || ''); };
+      r.onerror = function () { no(r.error); };
+      r.readAsDataURL(file);
+    });
+  }
+  function postForm(kind, fields, form, file) {
+    var body = { form: kind, fields: fields, page: location.href.split('#')[0],
+      elapsed: Date.now() - FORM_T0, website: form.elements.website ? form.elements.website.value : '' };
+    var go = function () {
+      return fetch(endpoint(), { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(body) })
+        .then(function (r) { return r.json(); });
+    };
+    if (!file) return go();
+    var ext = (file.name.split('.').pop() || '').toLowerCase();
+    return readFile(file).then(function (data) {
+      body.file = { name: file.name, type: file.type || FILE_TYPES[ext] || '', data: data };
+      return go();
+    });
+  }
+  function busy(btn, on) {
+    if (!btn) return;
+    if (on) { btn.dataset.html = btn.innerHTML; btn.disabled = true; btn.setAttribute('aria-busy', 'true'); btn.lastChild.textContent = 'SENDING…'; }
+    else { btn.disabled = false; btn.removeAttribute('aria-busy'); if (btn.dataset.html) btn.innerHTML = btn.dataset.html; }
+  }
+  function failText(res) {
+    if (res && res.error === 'rate') return 'You have sent a few already. Give it a few minutes, or message us on WhatsApp.';
+    return 'That did not send. Check your connection and try again, use Send on WhatsApp, or email ' + mailTo() + '.';
+  }
+  function sent(form, note, name, email, what) {
+    form.reset();
+    $$('[data-chips] .chip', form).forEach(function (x) { x.setAttribute('aria-pressed', 'false'); });
+    note.classList.add('ok');
+    note.textContent = 'Thanks, ' + (name.split(' ')[0] || name) + '. Your ' + what + ' is with us and we will reply within one working day. A confirmation is on its way to ' + email + '.';
+  }
+  function submitVia(kind, form, note, fields, file, what, mailFallback) {
+    note.classList.remove('ok');
+    if (!endpoint()) { mailFallback(); return; }
+    var btn = form.querySelector('button[type="submit"]');
+    busy(btn, true);
+    note.textContent = 'Sending your ' + what + '…';
+    postForm(kind, fields, form, file).then(function (res) {
+      busy(btn, false);
+      if (res && res.ok) sent(form, note, fields.name, fields.email, what);
+      else note.textContent = failText(res);
+    }).catch(function () { busy(btn, false); note.textContent = failText(); });
+  }
+
   function enquiry() {
     const form = $('#enquiry');
     if (!form) return;
@@ -304,39 +369,31 @@
         el('email').focus(); return;
       }
       const chip = form.querySelector('[data-chips] .chip[aria-pressed="true"]');
-      const lines = [
-        'Name: ' + name,
-        'Email: ' + email,
-        'Company: ' + (el('company') ? el('company').value : ''),
-        'Service: ' + (el('service') ? el('service').value : ''),
-        'Budget: ' + (chip ? chip.textContent.trim() : ''),
-        'Timeline: ' + (el('timeline') ? el('timeline').value : ''),
-        '', (el('details') ? el('details').value : '')
-      ].join('\n');
-      note.textContent = 'Opening your mail app with the enquiry filled in. If nothing happens, send it to '
-        + (window.GC ? window.GC.BRAND.email : 'hello@graphcent.com') + '.';
-      window.location.href = 'mailto:' + (window.GC ? window.GC.BRAND.email : 'hello@graphcent.com')
-        + '?subject=' + encodeURIComponent('Project enquiry: ' + name)
-        + '&body=' + encodeURIComponent(lines);
+      const v = function (n) { return el(n) ? (el(n).value || '').trim() : ''; };
+      const fields = { name: name, email: email, company: v('company'), service: v('service'),
+        budget: chip ? chip.textContent.trim() : '', timeline: v('timeline'), details: v('details') };
+      submitVia('enquiry', form, note, fields, null, 'enquiry', function () {
+        const lines = ['Name: ' + name, 'Email: ' + email, 'Company: ' + fields.company, 'Service: ' + fields.service,
+          'Budget: ' + fields.budget, 'Timeline: ' + fields.timeline, '', fields.details].join('\n');
+        note.textContent = 'Opening your mail app with the enquiry filled in. If nothing happens, send it to ' + mailTo() + '.';
+        window.location.href = 'mailto:' + mailTo() + '?subject=' + encodeURIComponent('Project enquiry: ' + name)
+          + '&body=' + encodeURIComponent(lines);
+      });
     });
+    honeypot(form);
   }
 
   /* ------------------------------------------------------
-     9b. Footer newsletter
-     Validates the address, then confirms on the page: no redirect
-     and no mail app. The address is not sent anywhere yet, because
-     the site has no backend. To collect signups, send `email` to
-     your provider (Mailchimp, Buttondown, Formspree...) with a
-     fetch() POST at the marked line below.
+     9b. Footer newsletter: posts the address to the forms backend
+     (Newsletter tab of the sheet) when GC.BRAND.formEndpoint is set.
      ------------------------------------------------------ */
   /* ------------------------------------------------------
      9c. Brief Form
      Entirely separate from enquiry() above: its own form id,
      its own note element, its own fields. The Contact form is
-     never touched by this. Same static-site mailto handoff;
-     a file cannot ride along in a mailto link, so the note
-     asks the visitor to attach it themselves once their mail
-     app opens, and the filename is included in the body text.
+     never touched by this. The attached file (PDF/DOC/DOCX, up to 10 MB) is posted with
+     the brief. In the mailto fallback a file cannot ride along,
+     so the note asks the visitor to attach it themselves.
      ------------------------------------------------------ */
   function briefForm() {
     const form = $('#brief');
@@ -360,26 +417,27 @@
       }
       const chip = form.querySelector('[data-chips] .chip[aria-pressed="true"]');
       const file = el('file') && el('file').files && el('file').files[0];
-      const lines = [
-        'Name: ' + name,
-        'Email: ' + email,
-        'Company: ' + (el('company') ? el('company').value : ''),
-        'Project: ' + (el('project') ? el('project').value : ''),
-        'Service: ' + (el('service') ? el('service').value : ''),
-        'Budget: ' + (chip ? chip.textContent.trim() : ''),
-        'Timeline: ' + (el('timeline') ? el('timeline').value : ''),
-        'Heard about us via: ' + (el('source') ? el('source').value : ''),
-        '', (el('details') ? el('details').value : ''),
-        file ? ('\nAttachment to add manually: ' + file.name) : ''
-      ].join('\n');
-      note.textContent = file
-        ? 'Opening your mail app with the brief filled in. Attach ' + file.name + ' before sending, since a mailto link cannot carry it for you.'
-        : 'Opening your mail app with the brief filled in. If nothing happens, send it to '
-          + (window.GC ? window.GC.BRAND.email : 'hello@graphcent.com') + '.';
-      window.location.href = 'mailto:' + (window.GC ? window.GC.BRAND.email : 'hello@graphcent.com')
-        + '?subject=' + encodeURIComponent('Project brief: ' + name)
-        + '&body=' + encodeURIComponent(lines);
+      if (file && endpoint()) {
+        const ext = (file.name.split('.').pop() || '').toLowerCase();
+        if (['pdf', 'doc', 'docx'].indexOf(ext) < 0) { note.textContent = 'Attach the brief as a PDF, DOC or DOCX file.'; el('file').focus(); return; }
+        if (file.size > 10 * 1024 * 1024) { note.textContent = 'That file is over 10 MB. Send a smaller version, or share a link to it in the details.'; el('file').focus(); return; }
+      }
+      const v = function (n) { return el(n) ? (el(n).value || '').trim() : ''; };
+      const fields = { name: name, email: email, company: v('company'), project: v('project'), service: v('service'),
+        budget: chip ? chip.textContent.trim() : '', timeline: v('timeline'), source: v('source'), details: v('details') };
+      submitVia('brief', form, note, fields, file, 'brief', function () {
+        const lines = ['Name: ' + name, 'Email: ' + email, 'Company: ' + fields.company, 'Project: ' + fields.project,
+          'Service: ' + fields.service, 'Budget: ' + fields.budget, 'Timeline: ' + fields.timeline,
+          'Heard about us via: ' + fields.source, '', fields.details,
+          file ? ('\nAttachment to add manually: ' + file.name) : ''].join('\n');
+        note.textContent = file
+          ? 'Opening your mail app with the brief filled in. Attach ' + file.name + ' before sending, since a mailto link cannot carry it for you.'
+          : 'Opening your mail app with the brief filled in. If nothing happens, send it to ' + mailTo() + '.';
+        window.location.href = 'mailto:' + mailTo() + '?subject=' + encodeURIComponent('Project brief: ' + name)
+          + '&body=' + encodeURIComponent(lines);
+      });
     });
+    honeypot(form);
   }
 
 
@@ -524,10 +582,15 @@
           input.focus();
           return;
         }
-        /* TODO: post `email` to your newsletter provider here. */
-        form.reset();
-        say('You\u2019re subscribed. Thanks for joining the Graphcent newsletter.', true);
+        var done = function () { form.reset(); say('You\u2019re subscribed. Thanks for joining the Graphcent newsletter.', true); };
+        if (!endpoint()) { done(); return; }
+        var btn = form.querySelector('button[type="submit"]'); if (btn) btn.disabled = true;
+        postForm('newsletter', { email: email }, form, null).then(function (res) {
+          if (btn) btn.disabled = false;
+          if (res && res.ok) done(); else say(failText(res), false);
+        }).catch(function () { if (btn) btn.disabled = false; say(failText(), false); });
       });
+      honeypot(form);
     });
   }
 
