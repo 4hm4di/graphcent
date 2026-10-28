@@ -587,7 +587,9 @@
         var btn = form.querySelector('button[type="submit"]'); if (btn) btn.disabled = true;
         postForm('newsletter', { email: email }, form, null).then(function (res) {
           if (btn) btn.disabled = false;
-          if (res && res.ok) done(); else say(failText(res), false);
+          if (res && res.ok && res.already) { form.reset(); say('You\u2019re already on the list. Thanks for staying with Graphcent.', true); }
+          else if (res && res.ok) { form.reset(); say('You\u2019re subscribed. A welcome email is on its way to ' + email + '.', true); }
+          else say(failText(res), false);
         }).catch(function () { if (btn) btn.disabled = false; say(failText(), false); });
       });
       honeypot(form);

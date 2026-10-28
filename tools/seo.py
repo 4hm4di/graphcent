@@ -124,6 +124,14 @@ for p in pages:
     tc = re.search(r'<meta name="theme-color"[^>]*>', s)
     i = tc.end() if tc else s.index('</title>') + len('</title>')
     s = s[:i] + icons + s[i:]
+    # version the site's own CSS/JS by content, so a returning visitor never runs a stale cached copy
+    def _ver(m):
+        path = os.path.normpath(os.path.join(ROOT, os.path.dirname(p), m.group(2)))
+        if not os.path.isfile(path):
+            return m.group(0)
+        h = hashlib.md5(open(path, 'rb').read()).hexdigest()[:8]
+        return f'{m.group(1)}{m.group(2)}?v={h}{m.group(3)}'
+    s = re.sub(r'((?:src|href)=")((?:\.\./)*assets/(?:css|js)/[\w.-]+\.(?:css|js))(?:\?v=\w+)?(")', _ver, s)
     # structured data for the page (the homepage keeps its own business data)
     s = re.sub(r'\n?<script type="application/ld\+json" id="ld-page">.*?</script>', '', s, flags=re.S)
     if p != 'index.html' and p != '404.html':
