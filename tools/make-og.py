@@ -27,6 +27,7 @@ CARDS_OG += [
     ('article-why-a-logo-is-not-a-brand', 'Insights · Branding', 'Why a logo is not a brand', ['assets/projects/pegasus-interiors/mockups/signage.webp']),
     ('contact', 'Contact', 'Tell us what you’re building.', []),
     ('brief', 'Start a project', 'Send us a brief.', []),
+    ('client-details', 'Client onboarding', 'Your brand, in detail.', []),
 ]
 
 

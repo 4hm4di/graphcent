@@ -25,6 +25,7 @@ OG = {  # page -> (og image under assets/, alt)
     'insights/why-a-logo-is-not-a-brand/index.html': ('og/article-why-a-logo-is-not-a-brand.jpg', 'Why a logo is not a brand: the Pegasus Interiors story'),
     'contact/index.html': ('og/contact.jpg', 'Contact Graphcent'),
     'brief/index.html': ('og/brief.jpg', 'Send Graphcent a project brief'),
+    'client-details/index.html': ('og/client-details.jpg', 'Graphcent client onboarding: your brand, in detail'),
 }
 for s in ORDER:
     OG[f'work/{s}/index.html'] = (f'og/work-{s}.jpg', f'{html.unescape(CARDS[s]["name"])}: {html.unescape(CARDS[s]["rt"]).lower()} by Graphcent')
@@ -49,7 +50,7 @@ DESCS = {
     '404.html': 'This page could not be found. Head back to the Graphcent homepage or see our work.',
 }
 CRUMB = {'work': 'Work', 'studio': 'Studio', 'insights': 'Insights', 'contact': 'Contact', 'brief': 'Brief',
-         'privacy-policy': 'Privacy Policy', 'terms-of-service': 'Terms of Service', 'cookie-policy': 'Cookie Policy'}
+         'privacy-policy': 'Privacy Policy', 'client-details': 'Client Details', 'terms-of-service': 'Terms of Service', 'cookie-policy': 'Cookie Policy'}
 PAGE_TYPE = {'studio/index.html': 'AboutPage', 'contact/index.html': 'ContactPage', 'work/index.html': 'CollectionPage',
              'insights/index.html': 'CollectionPage'}
 ORG = {'@type': 'Organization', '@id': BASE + '/#organization', 'name': 'Graphcent', 'url': BASE + '/',

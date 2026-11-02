@@ -558,6 +558,14 @@
     } else load();
   }
 
+  /* embedded third-party frames (forms, posts): hide the custom cursor while over them */
+  function embedFrames() {
+    $$('iframe[data-embed]').forEach(function (f) {
+      f.addEventListener('mouseenter', function () { document.documentElement.classList.add('cursor-away'); });
+      f.addEventListener('mouseleave', function () { document.documentElement.classList.remove('cursor-away'); });
+    });
+  }
+
   function newsletter() {
     $$('.newsletter').forEach(function (form) {
       const note = $('.formnote', form);
@@ -904,6 +912,7 @@
     enquiry();
     briefForm();
     newsletter();
+    embedFrames();
     whatsapp();
     reviews();
     ambientVideos();
